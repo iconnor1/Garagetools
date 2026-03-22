@@ -407,7 +407,66 @@
     padding-top: 16px;
   }
 
-  /* ── ANIMATIONS ── */
+  .card-price-strike {
+    font-family: 'Kiak', sans-serif;
+    font-size: 28px;
+    color: var(--border);
+    line-height: 1;
+    text-decoration: line-through;
+    text-decoration-color: var(--pink);
+  }
+
+  .coming-soon-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    border: 1.5px solid var(--yellow);
+    padding: 3px 10px;
+    margin-bottom: 12px;
+    background: rgba(215,153,33,0.06);
+  }
+
+  .card-body.dimmed { opacity: 0.6; pointer-events: none; }
+
+  .notify-form {
+    display: flex;
+    gap: 0;
+    margin-top: 8px;
+  }
+
+  .notify-input {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-right: none;
+    background: var(--white);
+    color: var(--ink);
+    flex: 1;
+    outline: none;
+    letter-spacing: 0.06em;
+  }
+
+  .notify-input:focus { border-color: var(--yellow); }
+
+  .notify-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    background: var(--yellow);
+    color: var(--ink);
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .notify-btn:hover { opacity: 0.88; }
   .fade-up {
     opacity: 0;
     transform: translateY(16px);
@@ -583,11 +642,11 @@
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">GARAGE<span>.</span>TOOLS</a>
+  <a class="nav-logo" href="#">GARAGE TOOLS</a>
   <div class="nav-links">
     <a href="#products">Products</a>
     <a href="#who">Who it's for</a>
-    <span class="nav-domain">garagetools.work</span>
+    
   </div>
 </nav>
 
@@ -668,12 +727,18 @@
     </div>
     <div class="card-footer">
       <div>
-        <div class="card-price">$10</div>
-        <div class="card-price-sub">One-time · yours forever</div>
-      </div>
-      <a href="https://lemonsqueezy.com" class="buy-btn plank">Get Plank →</a>
+        <div>
+          <div style="display:flex;align-items:baseline;gap:8px;">
+            <div class="card-price">$5</div>
+            <div class="card-price-strike">$10</div>
+          </div>
+          <div class="card-price-sub">Launch price · one-time · yours forever</div>
+        </div>
+      <a href="https://gumroad.com" class="buy-btn plank">Get Plank →</a>
     </div>
   </div>
+
+</div>
 
 <!-- PLANK WHO IT'S FOR -->
 <section class="section">
@@ -681,7 +746,7 @@
   <div class="use-grid">
     <div class="use-card">
       <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L1 6l8 4 8-4-8-4z" stroke="#d65d0e" stroke-width="1.4" stroke-linejoin="round"/><path d="M4 8.5V13c0 1.1 2.2 2.5 5 2.5s5-1.4 5-2.5V8.5" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/><line x1="17" y1="6" x2="17" y2="11" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-      <div><div class="use-label">Students</div><div class="use-desc">Capstone or side project — one-time $10 beats a monthly subscription every time.</div></div>
+      <div><div class="use-label">Students</div><div class="use-desc">Capstone or side project — one-time $5 beats a monthly subscription every time.</div></div>
     </div>
     <div class="use-card">
       <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="5,6 2,9 5,12" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="13,6 16,9 13,12" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="4" x2="7" y2="14" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/></svg></div>
@@ -711,6 +776,7 @@
     <div class="card-accent ledger"></div>
     <div class="card-body">
       <div class="card-label">Parts & BOM</div>
+      <div class="coming-soon-badge">Coming Soon</div>
       <div class="card-name ledger">
         LEDGER<br>
         <span class="accent">YOUR</span><br>
@@ -757,7 +823,10 @@
         <div class="card-price">$40</div>
         <div class="card-price-sub">One-time · yours forever</div>
       </div>
-      <a href="https://lemonsqueezy.com" class="buy-btn ledger">Get Ledger →</a>
+      <div class="notify-form">
+        <input class="notify-input" type="email" placeholder="your@email.com" />
+        <button class="notify-btn" onclick="this.textContent='✓ Noted'">Notify me</button>
+      </div>
     </div>
   </div>
 
@@ -796,10 +865,10 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">GARAGE<span>.</span>TOOLS</div>
+  <div class="footer-logo">GARAGE TOOLS</div>
   <div class="footer-links">
-    <a href="https://lemonsqueezy.com">Buy Plank</a>
-    <a href="https://lemonsqueezy.com">Buy Ledger</a>
+    <a href="https://gumroad.com">Buy Plank</a>
+    <a href="#">Buy Ledger (Coming Soon)</a>
     <a href="/cdn-cgi/l/email-protection#cba3aea7a7a48bacaab9aaacaebfa4a4a7b8e5bca4b9a0">Contact</a>
   </div>
   <div class="footer-copy">
@@ -821,30 +890,70 @@
 
     const palette = ['rgba(214,93,14,','rgba(177,98,134,','rgba(204,36,29,','rgba(215,153,33,'];
 
-    function splat(x, y, r, ci, a, seed) {
+    function coffeeStain(x, y, r, ci, a, seed) {
       let s = seed || 42;
       const rand = () => { s = (s*1664525+1013904223)&0xffffffff; return (s>>>0)/0xffffffff; };
       ctx.save();
-      ctx.fillStyle = palette[ci]+'1)';
-      ctx.globalAlpha = a;
+
+      // Outer ring — the dried edge of the stain
+      const ringPts = 80;
+      ctx.globalAlpha = a * 0.9;
+      ctx.strokeStyle = palette[ci] + '1)';
+      ctx.lineWidth = 2 + rand() * 3;
       ctx.beginPath();
-      const pts = 12;
-      for (let i=0;i<=pts;i++) {
-        const angle=(i/pts)*Math.PI*2;
-        const j=0.55+rand()*0.75;
-        ctx.lineTo(x+Math.cos(angle)*r*j, y+Math.sin(angle)*r*j*0.85);
+      for (let i = 0; i <= ringPts; i++) {
+        const angle = (i / ringPts) * Math.PI * 2;
+        const jitter = 0.88 + rand() * 0.24;
+        const rx = x + Math.cos(angle) * r * jitter;
+        const ry = y + Math.sin(angle) * r * jitter * (0.75 + rand() * 0.3);
+        i === 0 ? ctx.moveTo(rx, ry) : ctx.lineTo(rx, ry);
       }
-      ctx.closePath(); ctx.fill();
-      for (let d=0;d<5;d++) {
-        const angle=rand()*Math.PI*2, dist=r*(0.55+rand()*1.1);
-        ctx.globalAlpha=a*(0.3+rand()*0.5);
-        ctx.beginPath(); ctx.arc(x+Math.cos(angle)*dist,y+Math.sin(angle)*dist,r*(0.07+rand()*0.2),0,Math.PI*2); ctx.fill();
+      ctx.closePath();
+      ctx.stroke();
+
+      // Inner wash — lighter fill, thinner toward center (coffee dries at edges)
+      const grad = ctx.createRadialGradient(x, y, r * 0.3, x, y, r * 0.95);
+      grad.addColorStop(0, palette[ci] + '0)');
+      grad.addColorStop(0.6, palette[ci] + String(a * 0.12) + ')');
+      grad.addColorStop(1,   palette[ci] + String(a * 0.55) + ')');
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      for (let i = 0; i <= ringPts; i++) {
+        const angle = (i / ringPts) * Math.PI * 2;
+        const jitter = 0.88 + rand() * 0.24;
+        const rx = x + Math.cos(angle) * r * jitter;
+        const ry = y + Math.sin(angle) * r * jitter * (0.75 + rand() * 0.3);
+        i === 0 ? ctx.moveTo(rx, ry) : ctx.lineTo(rx, ry);
       }
-      for (let s2=0;s2<22;s2++) {
-        const angle=rand()*Math.PI*2, dist=r*(0.9+rand()*1.8);
-        ctx.globalAlpha=a*rand()*0.25;
-        ctx.beginPath(); ctx.arc(x+Math.cos(angle)*dist,y+Math.sin(angle)*dist,0.8+rand()*2.5,0,Math.PI*2); ctx.fill();
+      ctx.closePath();
+      ctx.fill();
+
+      // Small satellite rings — drips that dried nearby
+      const satellites = 2 + Math.floor(rand() * 3);
+      for (let d = 0; d < satellites; d++) {
+        const angle = rand() * Math.PI * 2;
+        const dist = r * (0.9 + rand() * 0.7);
+        const sr = r * (0.08 + rand() * 0.14);
+        const sx = x + Math.cos(angle) * dist;
+        const sy = y + Math.sin(angle) * dist;
+
+        ctx.globalAlpha = a * (0.4 + rand() * 0.4);
+        ctx.strokeStyle = palette[ci] + '1)';
+        ctx.lineWidth = 1 + rand() * 1.5;
+        ctx.beginPath();
+        ctx.arc(sx, sy, sr, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // tiny fill
+        const sg = ctx.createRadialGradient(sx, sy, 0, sx, sy, sr);
+        sg.addColorStop(0, palette[ci] + '0)');
+        sg.addColorStop(1, palette[ci] + String(a * 0.3) + ')');
+        ctx.fillStyle = sg;
+        ctx.globalAlpha = 1;
+        ctx.fill();
       }
+
       ctx.restore();
     }
 
@@ -858,7 +967,7 @@
       {x:W*0.5,  y:H*0.1,  r:35,  ci:2, a:0.09},
       {x:W*0.25, y:H*0.9,  r:30,  ci:1, a:0.08},
       {x:W*0.75, y:H*0.85, r:28,  ci:0, a:0.08},
-    ].forEach((s,i) => splat(s.x,s.y,s.r,s.ci,s.a,i*137+31));
+    ].forEach((s,i) => coffeeStain(s.x,s.y,s.r,s.ci,s.a,i*137+31));
   }
 
   setTimeout(draw, 50);
