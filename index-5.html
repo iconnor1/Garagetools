@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garage Tools — Garage-grade tools to get shit done</title>
+<meta name="description" content="Garage-grade desktop tools for builders. No cloud. No subscriptions. Just files that work.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap');
+  @font-face { font-family:'Kiak'; src:url('https://fonts.cdnfonts.com/s/107155/Kiak.woff') format('woff'); }
+
+  :root {
+    --white:  #f9f5ef;
+    --paper:  #f2ece0;
+    --ink:    #1d2021;
+    --ink2:   #3c3836;
+    --dim:    #7c6f64;
+    --orange: #d65d0e;
+    --purple: #b16286;
+    --pink:   #cc241d;
+    --yellow: #d79921;
+    --aqua:   #427b58;
+    --border: #d5cfc4;
+    --bg:     #e8e0d0;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: 'Kiak', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-logo span { color: var(--orange); }
+
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  .nav-domain {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--border);
+    text-transform: lowercase;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--white);
+    padding: 100px 40px 80px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-family: 'Kiak', sans-serif;
+    font-size: clamp(56px, 10vw, 120px);
+    line-height: 0.9;
+    color: var(--ink);
+    position: relative;
+    z-index: 2;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-title .outline {
+    color: transparent;
+    -webkit-text-stroke: 2.5px var(--orange);
+  }
+
+  .hero-sub {
+    margin-top: 28px;
+    font-size: 16px;
+    color: var(--dim);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-sub strong { color: var(--ink); font-weight: 600; }
+
+  .hero-pills {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 28px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1.5px solid var(--border);
+    color: var(--dim);
+    background: transparent;
+  }
+
+  .pill.hot {
+    border-color: var(--orange);
+    color: var(--orange);
+    background: rgba(214,93,14,0.06);
+  }
+
+  /* ── PRODUCTS ── */
+  .products {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 64px 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .product-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 6px 0 #c4b9a8;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .product-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 8px 0 #c4b9a8;
+  }
+
+  .card-accent {
+    height: 4px;
+    width: 100%;
+  }
+
+  .card-accent.plank  { background: linear-gradient(90deg, var(--orange), var(--purple), var(--pink)); }
+  .card-accent.ledger { background: linear-gradient(90deg, var(--yellow), var(--orange), var(--purple)); }
+
+  .card-body { padding: 36px 32px 28px; flex: 1; display: flex; flex-direction: column; }
+
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 12px;
+  }
+
+  .card-name {
+    font-family: 'Kiak', sans-serif;
+    font-size: 64px;
+    line-height: 0.9;
+    color: var(--ink);
+  }
+
+  .card-name.plank  .accent { color: var(--orange); }
+  .card-name.ledger .accent { color: var(--yellow); }
+  .card-name .outline-plank  { color: transparent; -webkit-text-stroke: 2px var(--purple); }
+  .card-name .outline-ledger { color: transparent; -webkit-text-stroke: 2px var(--orange); }
+
+  .card-desc {
+    margin-top: 20px;
+    font-size: 13.5px;
+    color: var(--dim);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .card-desc strong { color: var(--ink); font-weight: 600; }
+
+  .card-tagline {
+    margin-top: 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding-left: 10px;
+    line-height: 1.5;
+  }
+
+  .card-tagline.plank  { color: var(--orange); border-left: 2px solid var(--orange); }
+  .card-tagline.ledger { color: var(--yellow);  border-left: 2px solid var(--yellow); }
+
+  .card-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 20px;
+  }
+
+  .card-footer {
+    padding: 20px 32px 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--paper);
+  }
+
+  .card-price {
+    font-family: 'Kiak', sans-serif;
+    font-size: 42px;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .card-price-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .buy-btn {
+    background: var(--ink);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .buy-btn:hover { opacity: 0.85; }
+
+  .buy-btn.plank::after  { content:''; position:absolute; bottom:-4px; right:-4px; width:100%; height:100%; background:var(--orange); z-index:-1; }
+  .buy-btn.ledger::after { content:''; position:absolute; bottom:-4px; right:-4px; width:100%; height:100%; background:var(--yellow); z-index:-1; }
+
+  /* ── WHO IT'S FOR ── */
+  .section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px 64px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .section-header span {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    white-space: nowrap;
+  }
+
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .use-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+  }
+
+  .use-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .use-icon { flex-shrink: 0; margin-top: 1px; }
+
+  .use-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .use-desc { font-size: 12px; color: var(--dim); line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: var(--dim);
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: 'Kiak', sans-serif;
+    font-size: 20px;
+    color: var(--white);
+  }
+
+  .footer-logo span { color: var(--orange); }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-decoration: none;
+  }
+
+  .footer-links a:hover { color: var(--white); }
+
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    width: 100%;
+    margin-top: 8px;
+    border-top: 1px solid #3c3836;
+    padding-top: 16px;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .fade-up:nth-child(1) { animation-delay: 0.05s; }
+  .fade-up:nth-child(2) { animation-delay: 0.15s; }
+  .fade-up:nth-child(3) { animation-delay: 0.25s; }
+  .fade-up:nth-child(4) { animation-delay: 0.35s; }
+  .fade-up:nth-child(5) { animation-delay: 0.45s; }
+
+  @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+
+  /* ── PREVIEWS ── */
+  .preview-window {
+    border-top: 1px solid var(--border);
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .preview-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    background: #2a2827;
+    border-bottom: 1px solid #3c3836;
+  }
+
+  .preview-dot { width:8px; height:8px; border-radius:50%; display:inline-block; }
+
+  .preview-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: #7c6f64;
+    letter-spacing: 0.1em;
+    margin-left: 6px;
+  }
+
+  /* Plank board preview */
+  .plank-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .pb-col-header {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    margin-bottom: 6px;
+    border-bottom: 1.5px solid;
+  }
+  .pb-col-header.todo  { color:#7c6f64; border-color:#3c3836; }
+  .pb-col-header.doing { color:#d65d0e; border-color:#d65d0e; }
+  .pb-col-header.done  { color:#427b58; border-color:#427b58; }
+
+  .pb-card {
+    background: #282828;
+    border: 1px solid #3c3836;
+    padding: 7px 8px;
+    margin-bottom: 5px;
+    font-size: 9px;
+    color: #ebdbb2;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, opacity 0.3s ease, border-color 0.3s ease;
+  }
+
+  .pb-card.active { border-color: #d65d0e; border-left: 2px solid #d65d0e; }
+  .pb-card.moving { transform: scale(1.04); opacity: 0.7; border-color: #d65d0e; }
+  .pb-card.landing { animation: cardLand 0.3s ease; }
+  @keyframes cardLand { 0%{transform:translateY(-8px);opacity:0} 100%{transform:translateY(0);opacity:1} }
+
+  .pb-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .pb-tag.orange { color:#d65d0e; }
+  .pb-tag.purple { color:#b16286; }
+  .pb-tag.pink   { color:#cc241d; }
+  .pb-tag.aqua   { color:#427b58; }
+
+  /* Ledger BOM preview */
+  .ledger-bom { padding: 10px 12px; }
+
+  .lb-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 0.5fr 1fr;
+    gap: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #7c6f64;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #3c3836;
+    margin-bottom: 4px;
+  }
+
+  .lb-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 0.5fr 1fr;
+    gap: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 8.5px;
+    color: #ebdbb2;
+    padding: 4px 0;
+    border-bottom: 1px solid #32302f;
+    align-items: center;
+    transition: background 0.4s ease;
+  }
+
+  .lb-row.depth1 > span:first-child { padding-left: 10px; color: #d5c4a1; }
+  .lb-row.depth2 > span:first-child { padding-left: 20px; color: #a89984; font-size: 8px; }
+  .lb-row.highlight { background: rgba(215,153,33,0.08); }
+
+  .lb-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    display: inline-block;
+  }
+  .lb-status.released { color:#427b58; border:1px solid #427b58; }
+  .lb-status.wip      { color:#d79921; border:1px solid #d79921; }
+  .lb-status.draft    { color:#7c6f64; border:1px solid #3c3836; }
+  .lb-status.approved { color:#427b58; background:rgba(66,123,88,0.15); border:1px solid #427b58; }
+
+  .lb-eco {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 6px 8px;
+    background: #32302f;
+    border: 1px solid #3c3836;
+    border-left: 2px solid #d79921;
+    transition: border-color 0.4s ease;
+  }
+  .lb-eco.approved-eco { border-left-color: #427b58; background: rgba(66,123,88,0.08); }
+
+  .lb-eco-num   { font-family:'DM Mono',monospace; font-size:8px; color:#d79921; }
+  .lb-eco-title { font-family:'DM Mono',monospace; font-size:8px; color:#a89984; flex:1; }
+  .lb-eco-status {
+    font-family:'DM Mono',monospace; font-size:7px; letter-spacing:0.1em;
+    text-transform:uppercase; padding:2px 6px;
+    color:#d79921; border:1px solid #d79921;
+    transition: color 0.4s, border-color 0.4s, background 0.4s;
+  }
+  .lb-eco-status.approved { color:#427b58; border-color:#427b58; background:rgba(66,123,88,0.15); }
+
+  @media (max-width: 600px) {
+    nav { padding: 16px 20px; }
+    .nav-links { gap: 16px; }
+    .nav-domain { display: none; }
+    .hero { padding: 64px 24px 56px; }
+    footer { padding: 24px 20px; }
+    .card-body { padding: 24px 20px 20px; }
+    .card-footer { padding: 16px 20px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">GARAGE<span>.</span>TOOLS</a>
+  <div class="nav-links">
+    <a href="#products">Products</a>
+    <a href="#who">Who it's for</a>
+    <span class="nav-domain">garagetools.work</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-eyebrow fade-up">Built for builders</div>
+  <div class="hero-title fade-up">
+    GARAGE<br>
+    <span class="outline">TOOLS</span>
+  </div>
+  <p class="hero-sub fade-up">
+    <strong>Garage-grade tools to get shit done.</strong><br>
+    No cloud. No subscriptions. No enterprise nonsense.<br>
+    Just files that live on your drive and stay out of your way.
+  </p>
+  <div class="hero-pills fade-up">
+    <span class="pill hot">No Cloud</span>
+    <span class="pill hot">No Account</span>
+    <span class="pill">Works Offline</span>
+    <span class="pill">Agent Ready</span>
+    <span class="pill">One-time Price</span>
+    <span class="pill">Your Data</span>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<div class="products" id="products">
+
+  <!-- PLANK -->
+  <div class="product-card">
+    <div class="card-accent plank"></div>
+    <div class="card-body">
+      <div class="card-label">Task Board</div>
+      <div class="card-name plank">
+        PLANK<br>
+        <span class="accent">BOARDS</span><br>
+        <span class="outline-plank">THAT SHIP</span>
+      </div>
+      <p class="card-desc">
+        <strong>Your board lives in a file.</strong><br>
+        Task board-style, without the overhead. Drag, drop, move cards across columns. Share it over Dropbox. Hand it to an agent. Close the laptop.
+      </p>
+      <div class="card-tagline plank">Garage-grade tools to get shit done.</div>
+      <div class="card-pills">
+        <span class="pill hot">No Cloud</span>
+        <span class="pill hot">Agent Ready</span>
+        <span class="pill">Works Offline</span>
+        <span class="pill">Your Data</span>
+        <span class="pill">Desktop App</span>
+      </div>
+    </div>
+    <div class="preview-window">
+      <div class="preview-bar">
+        <span class="preview-dot" style="background:#cc241d"></span>
+        <span class="preview-dot" style="background:#d79921"></span>
+        <span class="preview-dot" style="background:#427b58"></span>
+        <span class="preview-title">my_board</span>
+      </div>
+      <div class="plank-board" id="plankBoard">
+        <div class="pb-col">
+          <div class="pb-col-header todo">Todo</div>
+          <div class="pb-card" id="pc1">Write docs<span class="pb-tag purple">docs</span></div>
+          <div class="pb-card" id="pc2">User testing<span class="pb-tag pink">research</span></div>
+          <div class="pb-card" id="pc3">Fix nav bug<span class="pb-tag orange">dev</span></div>
+        </div>
+        <div class="pb-col">
+          <div class="pb-col-header doing">Doing</div>
+          <div class="pb-card active" id="pc4">Build auth<span class="pb-tag orange">dev</span></div>
+          <div class="pb-card" id="pc5">Design system<span class="pb-tag purple">design</span></div>
+        </div>
+        <div class="pb-col">
+          <div class="pb-col-header done">Done</div>
+          <div class="pb-card" id="pc6">Setup repo ✓<span class="pb-tag aqua">shipped</span></div>
+          <div class="pb-card" id="pc7">Wireframes ✓<span class="pb-tag aqua">shipped</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div>
+        <div class="card-price">$10</div>
+        <div class="card-price-sub">One-time · yours forever</div>
+      </div>
+      <a href="https://lemonsqueezy.com" class="buy-btn plank">Get Plank →</a>
+    </div>
+  </div>
+
+<!-- PLANK WHO IT'S FOR -->
+<section class="section">
+  <div class="section-header"><span>Plank — Who it's for</span></div>
+  <div class="use-grid">
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L1 6l8 4 8-4-8-4z" stroke="#d65d0e" stroke-width="1.4" stroke-linejoin="round"/><path d="M4 8.5V13c0 1.1 2.2 2.5 5 2.5s5-1.4 5-2.5V8.5" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/><line x1="17" y1="6" x2="17" y2="11" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Students</div><div class="use-desc">Capstone or side project — one-time $10 beats a monthly subscription every time.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="5,6 2,9 5,12" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="13,6 16,9 13,12" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="4" x2="7" y2="14" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Solo Devs</div><div class="use-desc">Ship side projects with a board that lives next to your code.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="6" cy="6" r="2.5" stroke="#d65d0e" stroke-width="1.4"/><circle cx="12" cy="6" r="2.5" stroke="#d65d0e" stroke-width="1.4"/><path d="M1 15c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/><path d="M12 10.5c2.2.3 4 1.8 4 4.5" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Small Teams</div><div class="use-desc">Share the file over Dropbox or a drive. Everyone stays in sync.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="5" width="14" height="10" rx="1" stroke="#d65d0e" stroke-width="1.4"/><path d="M6 5V4a3 3 0 016 0v1" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="9" x2="9" y2="11" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/><line x1="7" y1="10" x2="11" y2="10" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Freelancers</div><div class="use-desc">One board per client. Hand it off when the project is done.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="5" stroke="#d65d0e" stroke-width="1.4"/><line x1="12" y1="12" x2="16" y2="16" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="8" x2="10" y2="8" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/><line x1="8" y1="6" x2="8" y2="10" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Researchers</div><div class="use-desc">Track experiments, literature review, and paper drafts offline.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="4" y="5" width="10" height="9" rx="1" stroke="#d65d0e" stroke-width="1.4"/><circle cx="7" cy="9" r="1" fill="#d65d0e"/><circle cx="11" cy="9" r="1" fill="#d65d0e"/><line x1="9" y1="2" x2="9" y2="5" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/><circle cx="9" cy="2" r="1" fill="#d65d0e"/><line x1="4" y1="12" x2="1" y2="14" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/><line x1="14" y1="12" x2="17" y2="14" stroke="#d65d0e" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">AI Agents</div><div class="use-desc">Agents can read, write, and move cards by editing a flat file. No API. No auth. Just ship.</div></div>
+    </div>
+  </div>
+</section>
+
+    <!-- LEDGER -->
+  <div class="product-card">
+    <div class="card-accent ledger"></div>
+    <div class="card-body">
+      <div class="card-label">Parts & BOM</div>
+      <div class="card-name ledger">
+        LEDGER<br>
+        <span class="accent">YOUR</span><br>
+        <span class="outline-ledger">BUILD</span>
+      </div>
+      <p class="card-desc">
+        <strong>Your BOM lives in a file.</strong><br>
+        Parts, assemblies, and ECOs — without the enterprise price tag. Track revisions, manage a shared parts library, and ship hardware with a real change history.
+      </p>
+      <div class="card-tagline ledger">Garage-grade tools to get shit done.</div>
+      <div class="card-pills">
+        <span class="pill hot">BOM Tree</span>
+        <span class="pill hot">ECO Tracking</span>
+        <span class="pill">Parts Library</span>
+        <span class="pill">AI Friendly</span>
+        <span class="pill">No Cloud</span>
+      </div>
+    </div>
+    <div class="preview-window">
+      <div class="preview-bar">
+        <span class="preview-dot" style="background:#cc241d"></span>
+        <span class="preview-dot" style="background:#d79921"></span>
+        <span class="preview-dot" style="background:#427b58"></span>
+        <span class="preview-title">smart_speaker_v2</span>
+      </div>
+      <div class="ledger-bom" id="ledgerBom">
+        <div class="lb-header">
+          <span>Part Name</span><span>P/N</span><span>Rev</span><span>Status</span>
+        </div>
+        <div class="lb-row depth0" id="lr1"><span>Speaker Assembly</span><span>SP-1000</span><span>B</span><span class="lb-status released">Released</span></div>
+        <div class="lb-row depth1" id="lr2"><span>Driver Unit</span><span>SP-1010</span><span>A</span><span class="lb-status released">Released</span></div>
+        <div class="lb-row depth2" id="lr3"><span>40mm Woofer</span><span>SP-1011</span><span>A</span><span class="lb-status released">Released</span></div>
+        <div class="lb-row depth1" id="lr4"><span>Amp Board</span><span>SP-1020</span><span>A</span><span class="lb-status wip">In Review</span></div>
+        <div class="lb-row depth2" id="lr5"><span>PCB Assy</span><span>SP-1021</span><span>—</span><span class="lb-status draft">Draft</span></div>
+        <div class="lb-eco" id="leco">
+          <span class="lb-eco-num">ECO-0044</span>
+          <span class="lb-eco-title">Driver unit qty update</span>
+          <span class="lb-eco-status" id="lecoStatus">Pending</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div>
+        <div class="card-price">$40</div>
+        <div class="card-price-sub">One-time · yours forever</div>
+      </div>
+      <a href="https://lemonsqueezy.com" class="buy-btn ledger">Get Ledger →</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- LEDGER WHO IT'S FOR -->
+<section class="section">
+  <div class="section-header"><span>Ledger — Who it's for</span></div>
+  <div class="use-grid">
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L1 6l8 4 8-4-8-4z" stroke="#d79921" stroke-width="1.4" stroke-linejoin="round"/><path d="M4 8.5V13c0 1.1 2.2 2.5 5 2.5s5-1.4 5-2.5V8.5" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/><line x1="17" y1="6" x2="17" y2="11" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Students</div><div class="use-desc">Senior design hardware deserves a real BOM. Not a shared Google Sheet.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><polyline points="5,6 2,9 5,12" stroke="#d79921" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><polyline points="13,6 16,9 13,12" stroke="#d79921" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><line x1="11" y1="4" x2="7" y2="14" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Solo Devs</div><div class="use-desc">Track every part in your prototype without a full PLM system.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="6" cy="6" r="2.5" stroke="#d79921" stroke-width="1.4"/><circle cx="12" cy="6" r="2.5" stroke="#d79921" stroke-width="1.4"/><path d="M1 15c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/><path d="M12 10.5c2.2.3 4 1.8 4 4.5" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Small Teams</div><div class="use-desc">Shared parts library across a team. One file, no server.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="5" width="14" height="10" rx="1" stroke="#d79921" stroke-width="1.4"/><path d="M6 5V4a3 3 0 016 0v1" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="9" x2="9" y2="11" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/><line x1="7" y1="10" x2="11" y2="10" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Freelancers</div><div class="use-desc">Deliver clean BOMs to clients as part of your hardware package.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="5" stroke="#d79921" stroke-width="1.4"/><line x1="12" y1="12" x2="16" y2="16" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="8" x2="10" y2="8" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/><line x1="8" y1="6" x2="8" y2="10" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">Researchers</div><div class="use-desc">Version your lab hardware configurations with ECO history.</div></div>
+    </div>
+    <div class="use-card">
+      <div class="use-icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="4" y="5" width="10" height="9" rx="1" stroke="#d79921" stroke-width="1.4"/><circle cx="7" cy="9" r="1" fill="#d79921"/><circle cx="11" cy="9" r="1" fill="#d79921"/><line x1="9" y1="2" x2="9" y2="5" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/><circle cx="9" cy="2" r="1" fill="#d79921"/><line x1="4" y1="12" x2="1" y2="14" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/><line x1="14" y1="12" x2="17" y2="14" stroke="#d79921" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+      <div><div class="use-label">AI Agents</div><div class="use-desc">Feed your BOM to an agent. Get back sourcing suggestions, cost breakdowns, or rev notes.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">GARAGE<span>.</span>TOOLS</div>
+  <div class="footer-links">
+    <a href="https://lemonsqueezy.com">Buy Plank</a>
+    <a href="https://lemonsqueezy.com">Buy Ledger</a>
+    <a href="/cdn-cgi/l/email-protection#cba3aea7a7a48bacaab9aaacaebfa4a4a7b8e5bca4b9a0">Contact</a>
+  </div>
+  <div class="footer-copy">
+    © 2026 Garage Tools · garagetools.work · Garage-grade tools to get shit done.
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+(function() {
+  const canvas = document.getElementById('heroCanvas');
+  const hero = canvas.parentElement;
+
+  function draw() {
+    const W = hero.offsetWidth;
+    const H = hero.offsetHeight;
+    if (!W || !H) { requestAnimationFrame(draw); return; }
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    const palette = ['rgba(214,93,14,','rgba(177,98,134,','rgba(204,36,29,','rgba(215,153,33,'];
+
+    function splat(x, y, r, ci, a, seed) {
+      let s = seed || 42;
+      const rand = () => { s = (s*1664525+1013904223)&0xffffffff; return (s>>>0)/0xffffffff; };
+      ctx.save();
+      ctx.fillStyle = palette[ci]+'1)';
+      ctx.globalAlpha = a;
+      ctx.beginPath();
+      const pts = 12;
+      for (let i=0;i<=pts;i++) {
+        const angle=(i/pts)*Math.PI*2;
+        const j=0.55+rand()*0.75;
+        ctx.lineTo(x+Math.cos(angle)*r*j, y+Math.sin(angle)*r*j*0.85);
+      }
+      ctx.closePath(); ctx.fill();
+      for (let d=0;d<5;d++) {
+        const angle=rand()*Math.PI*2, dist=r*(0.55+rand()*1.1);
+        ctx.globalAlpha=a*(0.3+rand()*0.5);
+        ctx.beginPath(); ctx.arc(x+Math.cos(angle)*dist,y+Math.sin(angle)*dist,r*(0.07+rand()*0.2),0,Math.PI*2); ctx.fill();
+      }
+      for (let s2=0;s2<22;s2++) {
+        const angle=rand()*Math.PI*2, dist=r*(0.9+rand()*1.8);
+        ctx.globalAlpha=a*rand()*0.25;
+        ctx.beginPath(); ctx.arc(x+Math.cos(angle)*dist,y+Math.sin(angle)*dist,0.8+rand()*2.5,0,Math.PI*2); ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    [
+      {x:0,      y:0,      r:130, ci:0, a:0.16},
+      {x:80,     y:60,     r:50,  ci:3, a:0.11},
+      {x:W,      y:0,      r:120, ci:1, a:0.14},
+      {x:W-60,   y:80,     r:45,  ci:2, a:0.10},
+      {x:0,      y:H,      r:110, ci:3, a:0.12},
+      {x:W,      y:H,      r:120, ci:0, a:0.13},
+      {x:W*0.5,  y:H*0.1,  r:35,  ci:2, a:0.09},
+      {x:W*0.25, y:H*0.9,  r:30,  ci:1, a:0.08},
+      {x:W*0.75, y:H*0.85, r:28,  ci:0, a:0.08},
+    ].forEach((s,i) => splat(s.x,s.y,s.r,s.ci,s.a,i*137+31));
+  }
+
+  setTimeout(draw, 50);
+  window.addEventListener('resize', draw);
+})();
+
+// ── PLANK ANIMATION ──
+(function() {
+  const cols = document.querySelectorAll('.pb-col');
+  if (!cols.length) return;
+  const moves = [['pc3',0,1],['pc4',1,2],['pc1',0,1],['pc3',1,2]];
+  let step = 0;
+  function doMove() {
+    const [cardId, from, to] = moves[step % moves.length];
+    const card = document.getElementById(cardId);
+    if (!card) { step++; setTimeout(doMove, 1200); return; }
+    card.classList.add('moving');
+    setTimeout(() => {
+      card.classList.remove('moving','active');
+      cols[to].appendChild(card);
+      card.classList.add('landing');
+      if (to === 2) {
+        const tag = card.querySelector('.pb-tag');
+        if (tag) { tag.className='pb-tag aqua'; tag.textContent='shipped'; }
+        card.childNodes[0].textContent = card.childNodes[0].textContent.replace(/✓/,'').trim() + ' ✓';
+      } else { card.classList.add('active'); }
+      setTimeout(() => card.classList.remove('landing'), 300);
+      step++;
+    }, 400);
+  }
+  setInterval(doMove, 2200);
+  setTimeout(doMove, 1000);
+})();
+
+// ── LEDGER ANIMATION ──
+(function() {
+  const ecoEl   = document.getElementById('leco');
+  const ecoStat = document.getElementById('lecoStatus');
+  const row4    = document.getElementById('lr4');
+  if (!ecoEl || !ecoStat) return;
+  const cycle = [
+    () => { row4 && row4.classList.add('highlight'); },
+    () => { ecoStat.textContent='Approved'; ecoStat.classList.add('approved'); ecoEl.classList.add('approved-eco'); },
+    () => { if(row4){const s=row4.querySelector('.lb-status');if(s){s.className='lb-status released';s.textContent='Released';}row4.classList.remove('highlight');} },
+    () => { ecoStat.textContent='Pending'; ecoStat.classList.remove('approved'); ecoEl.classList.remove('approved-eco'); if(row4){const s=row4.querySelector('.lb-status');if(s){s.className='lb-status wip';s.textContent='In Review';}} },
+  ];
+  let step = 0;
+  setInterval(() => { cycle[step % cycle.length](); step++; }, 1800);
+})();
+</script>
+</body>
+</html>
