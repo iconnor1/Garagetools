@@ -184,8 +184,25 @@
     margin: 0 auto;
     padding: 64px 24px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: 1fr 1fr;
     gap: 24px;
+    align-items: start;
+  }
+
+  .product-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .section {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (max-width: 700px) {
+    .products { grid-template-columns: 1fr; }
   }
 
   .product-card {
@@ -312,12 +329,6 @@
   .buy-btn.ledger::after { content:''; position:absolute; bottom:-4px; right:-4px; width:100%; height:100%; background:var(--yellow); z-index:-1; }
 
   /* ── WHO IT'S FOR ── */
-  .section {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 0 24px 64px;
-  }
-
   .section-header {
     display: flex;
     align-items: center;
@@ -703,7 +714,8 @@
 <!-- PRODUCTS -->
 <div class="products" id="products">
 
-  <!-- PLANK -->
+  <div class="product-col">
+    <!-- PLANK -->
   <div class="product-card">
     <div class="card-accent plank"></div>
     <div class="card-body">
@@ -731,26 +743,9 @@
         <span class="preview-dot" style="background:#cc241d"></span>
         <span class="preview-dot" style="background:#d79921"></span>
         <span class="preview-dot" style="background:#427b58"></span>
-        <span class="preview-title">my_board</span>
+        <span class="preview-title">Plank.xlsx</span>
       </div>
-      <div class="plank-board" id="plankBoard">
-        <div class="pb-col">
-          <div class="pb-col-header todo">Todo</div>
-          <div class="pb-card" id="pc1">Write docs<span class="pb-tag purple">docs</span></div>
-          <div class="pb-card" id="pc2">User testing<span class="pb-tag pink">research</span></div>
-          <div class="pb-card" id="pc3">Fix nav bug<span class="pb-tag orange">dev</span></div>
-        </div>
-        <div class="pb-col">
-          <div class="pb-col-header doing">Doing</div>
-          <div class="pb-card active" id="pc4">Build auth<span class="pb-tag orange">dev</span></div>
-          <div class="pb-card" id="pc5">Design system<span class="pb-tag purple">design</span></div>
-        </div>
-        <div class="pb-col">
-          <div class="pb-col-header done">Done</div>
-          <div class="pb-card" id="pc6">Setup repo ✓<span class="pb-tag aqua">shipped</span></div>
-          <div class="pb-card" id="pc7">Wireframes ✓<span class="pb-tag aqua">shipped</span></div>
-        </div>
-      </div>
+      <img src="Plank.gif" alt="Plank app preview" style="width:100%;display:block;">
     </div>
     <div class="card-footer">
       <div>
@@ -764,11 +759,8 @@
       <a href="https://garagetools.gumroad.com/l/plank" class="buy-btn plank">Get Plank →</a>
     </div>
   </div>
-
-</div>
-
-<!-- PLANK WHO IT'S FOR -->
-<section class="section">
+  </div>
+    <section class="section">
   <div class="section-header"><span>Plank — Who it's for</span></div>
   <div class="use-grid">
     <div class="use-card">
@@ -797,7 +789,9 @@
     </div>
   </div>
 </section>
+  </div>
 
+  <div class="product-col">
     <!-- LEDGER -->
   <div class="product-card">
     <div class="card-accent ledger"></div>
@@ -827,23 +821,9 @@
         <span class="preview-dot" style="background:#cc241d"></span>
         <span class="preview-dot" style="background:#d79921"></span>
         <span class="preview-dot" style="background:#427b58"></span>
-        <span class="preview-title">smart_speaker_v2</span>
+        <span class="preview-title">Ledger.lgr</span>
       </div>
-      <div class="ledger-bom" id="ledgerBom">
-        <div class="lb-header">
-          <span>Part Name</span><span>P/N</span><span>Rev</span><span>Status</span>
-        </div>
-        <div class="lb-row depth0" id="lr1"><span>Speaker Assembly</span><span>SP-1000</span><span>B</span><span class="lb-status released">Released</span></div>
-        <div class="lb-row depth1" id="lr2"><span>Driver Unit</span><span>SP-1010</span><span>A</span><span class="lb-status released">Released</span></div>
-        <div class="lb-row depth2" id="lr3"><span>40mm Woofer</span><span>SP-1011</span><span>A</span><span class="lb-status released">Released</span></div>
-        <div class="lb-row depth1" id="lr4"><span>Amp Board</span><span>SP-1020</span><span>A</span><span class="lb-status wip">In Review</span></div>
-        <div class="lb-row depth2" id="lr5"><span>PCB Assy</span><span>SP-1021</span><span>—</span><span class="lb-status draft">Draft</span></div>
-        <div class="lb-eco" id="leco">
-          <span class="lb-eco-num">ECO-0044</span>
-          <span class="lb-eco-title">Driver unit qty update</span>
-          <span class="lb-eco-status" id="lecoStatus">Pending</span>
-        </div>
-      </div>
+      <img src="Ledger.gif" alt="Ledger app preview" style="width:100%;display:block;">
     </div>
     <div class="card-footer">
       <div>
@@ -856,11 +836,7 @@
       </div>
     </div>
   </div>
-
-</div>
-
-<!-- LEDGER WHO IT'S FOR -->
-<section class="section">
+    <section class="section">
   <div class="section-header"><span>Ledger — Who it's for</span></div>
   <div class="use-grid">
     <div class="use-card">
@@ -889,7 +865,9 @@
     </div>
   </div>
 </section>
+  </div>
 
+</div>
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">GARAGE TOOLS</div>
